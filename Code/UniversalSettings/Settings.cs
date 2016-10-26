@@ -41,7 +41,7 @@ namespace UniversalSettings
             }
             catch ( InvalidCastException e )
             {
-                throw new InvalidSettingTypeException( typeof(T), value.GetType(), e);
+                throw new InvalidSettingTypeRequestedException( typeof(T), value.GetType(), e);
             }
         }
 
@@ -89,6 +89,15 @@ namespace UniversalSettings
             if ( string.IsNullOrWhiteSpace( settingName ) )
                 throw new ArgumentException(
                     "Setting name must contain at least one character and cannot be a whitespace." );
+        }
+
+        /// <summary>
+        /// Provides read only, raw access to the settings.
+        /// </summary>
+        /// <returns></returns>
+        public IReadOnlyDictionary<string, object> GetAll()
+        {
+            return _settings;
         }
     }
 }

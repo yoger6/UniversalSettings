@@ -39,11 +39,20 @@
     <!-- A reference to the entire .NET Framework is automatically included -->
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="InvalidSettingTypeException.cs" />
+    <Compile Include="InvalidSettingTypeRequestedException.cs" />
+    <Compile Include="ISettingsSerializationHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SerializableSetting.cs" />
     <Compile Include="SettingNotSetException.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="SettingsException.cs" />
+    <Compile Include="SettingsXmlSerializer.cs" />
+    <Compile Include="TypeSwitch.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System.Xml.XmlSerializer">
+      <HintPath>..\..\..\..\..\..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETPortable\v4.6\System.Xml.XmlSerializer.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

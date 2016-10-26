@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Uwp.UnitTesting.Portable", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test.Uwp.UnitTesting", "..\UnitTesting\Test\Test.Uwp.UnitTesting\Test.Uwp.UnitTesting.csproj", "{E5F1F90E-EAD6-469F-9F14-B634DD5066BB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common.UnitTesting", "..\..\..\Libs\Common\Code\Common.UnitTesting\Common.UnitTesting.csproj", "{5B8E428D-29BA-4615-B2B0-BB613EDA795E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{E5F1F90E-EAD6-469F-9F14-B634DD5066BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E5F1F90E-EAD6-469F-9F14-B634DD5066BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E5F1F90E-EAD6-469F-9F14-B634DD5066BB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5B8E428D-29BA-4615-B2B0-BB613EDA795E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5B8E428D-29BA-4615-B2B0-BB613EDA795E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5B8E428D-29BA-4615-B2B0-BB613EDA795E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5B8E428D-29BA-4615-B2B0-BB613EDA795E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -48,5 +54,6 @@ Global
 		{8ED26A4D-E414-421B-8820-9ACF6C8CC3B9} = {2850D194-6128-48D1-9E75-C622785D6B93}
 		{6EFF2E5E-E0BE-4E59-BB4D-F07CCFBC3098} = {DA1603BA-2063-4F53-96B1-1FF8189AAD5A}
 		{E5F1F90E-EAD6-469F-9F14-B634DD5066BB} = {DA1603BA-2063-4F53-96B1-1FF8189AAD5A}
+		{5B8E428D-29BA-4615-B2B0-BB613EDA795E} = {DA1603BA-2063-4F53-96B1-1FF8189AAD5A}
 	EndGlobalSection
 EndGlobal

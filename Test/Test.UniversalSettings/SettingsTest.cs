@@ -91,15 +91,20 @@ namespace Test.UniversalSettings
 
             var validation = new Action(()=>_settings.Get<string>( settingName ));
 
-            Assert.Throws<InvalidSettingTypeException>( validation );
+            Assert.Throws<InvalidSettingTypeRequestedException>( validation );
         }
 
         [Fact]
-        public void Set_Throws_WhenValueIsNotSupportedType()
+        public void GetAll_ReturnsReadOnlyDictionaryWithSettings()
         {
-            var validation = new Action(()=>_settings.Set( "wish i could", new List<string>() ));
+            var expectedKey = "the number";
+            var expectedValue = 0;
+            _settings.Set( expectedKey,expectedValue );
 
-            Assert.Throws<InvalidSettingTypeException>( validation );
+            var settingsDictionary = _settings.GetAll();
+
+            Assert.True( settingsDictionary.ContainsKey(expectedKey) );
+            Assert.True( (int)settingsDictionary[expectedKey] == expectedValue );
         }
     }
 }
