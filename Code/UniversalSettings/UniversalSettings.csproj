@@ -40,14 +40,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="InvalidSettingTypeRequestedException.cs" />
-    <Compile Include="ISettingsSerializationHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SerializableSetting.cs" />
+    <Compile Include="Serialization\ISettingsSerializationHelper.cs" />
+    <Compile Include="Serialization\SerializableSetting.cs" />
+    <Compile Include="Serialization\SettingsXmlSerializer.cs" />
     <Compile Include="SettingNotSetException.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="SettingsException.cs" />
-    <Compile Include="SettingsXmlSerializer.cs" />
-    <Compile Include="TypeSwitch.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.Xml.XmlSerializer">

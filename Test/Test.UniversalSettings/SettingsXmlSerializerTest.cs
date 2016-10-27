@@ -5,7 +5,6 @@ using Moq;
 using UniversalSettings;
 using UniversalSettings.Serialization;
 using Xunit;
-using ConstructorAssert = Uwp.UnitTesting.Portable.ConstructorAssert;
 
 namespace Test.UniversalSettings
 {
@@ -78,21 +77,26 @@ namespace Test.UniversalSettings
                                         .Returns( stream );
 
                 var settings = _serializer.Deserialize();
-
-                Assert.True( settings.IsSet( "number" ) );
+                
                 Assert.Equal( 1, settings.Get<int>( "number" ) );
+                Assert.Equal( false, settings.Get<bool>( "condition" ) );
+                Assert.Equal( 2.05, settings.Get<double>( "double number" ) );
+                Assert.Equal( "hello world!", settings.Get<string>( "text" ) );
             }
         }
         
         private string ExpectedSerializedSampleSettings()
         {
-            return "<?xml version=\"1.0\" encoding=\"utf-8\"?><ArrayOfSerializableSetting xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"><SerializableSetting><Key>number</Key><Value xsi:type=\"xsd:int\">1</Value><ValueTypeName>System.Int32</ValueTypeName></SerializableSetting></ArrayOfSerializableSetting>";
+            return @"<?xml version=""1.0"" encoding=""utf-8""?><ArrayOfSerializableSetting xmlns:xsd=""http://www.w3.org/2001/XMLSchema"" xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance""><SerializableSetting><Key>number</Key><Value xsi:type=""xsd:int"">1</Value></SerializableSetting><SerializableSetting><Key>condition</Key><Value xsi:type=""xsd:boolean"">false</Value></SerializableSetting><SerializableSetting><Key>double number</Key><Value xsi:type=""xsd:double"">2.05</Value></SerializableSetting><SerializableSetting><Key>text</Key><Value xsi:type=""xsd:string"">hello world!</Value></SerializableSetting></ArrayOfSerializableSetting>";
         }
 
         private Settings GetSampleSettings()
         {
             var settings = new Settings();
             settings.Set( "number", 1 );
+            settings.Set( "condition", false );
+            settings.Set( "double number", 2.05 );
+            settings.Set( "text", "hello world!" );
 
             return settings;
         }

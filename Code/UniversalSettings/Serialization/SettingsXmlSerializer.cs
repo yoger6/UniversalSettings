@@ -64,7 +64,7 @@ namespace UniversalSettings.Serialization
                 }
                 var settingsDtos = (SerializableSetting[])_serializer.Deserialize( stream );
 
-                return GetParsedDtosIntoSettings( settingsDtos );
+                return GetSettingsWithDeserializedDtos( settingsDtos );
             }
         }
 
@@ -73,25 +73,17 @@ namespace UniversalSettings.Serialization
             return settings.GetAll().Select( pair => new SerializableSetting
             {
                 Key = pair.Key,
-                Value = pair.Value,
-                ValueTypeName = pair.Value.GetType().ToString()
+                Value = pair.Value
             } );
         }
 
-        //TODO: Refactor parser out of the class
-        private Settings GetParsedDtosIntoSettings( SerializableSetting[] settingsDtos )
+        private Settings GetSettingsWithDeserializedDtos( SerializableSetting[] settingsDtos )
         {
             var settings = new Settings();
 
             foreach ( var serializableSetting in settingsDtos )
             {
-                var valueType = Type.GetType( serializableSetting.ValueTypeName );
-                var typeSwitch = new TypeSwitch<object>();
-                typeSwitch.Set<int>( () => 1 );
-
-                var parsedValue = typeSwitch.Execute( valueType );
-
-                settings.Set( serializableSetting.Key, parsedValue );
+                settings.Set( serializableSetting.Key, serializableSetting.Value );
             }
 
             return settings;
