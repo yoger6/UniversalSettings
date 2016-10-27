@@ -54,6 +54,10 @@ namespace UniversalSettings.Serialization
             }
         }
 
+        /// <summary>
+        /// Deserializes settings.
+        /// </summary>
+        /// <returns>Settings</returns>
         public Settings Deserialize()
         {
             using ( var stream = _serializationHelper.GetStreamForRead() )

@@ -34,13 +34,6 @@ namespace Test.UniversalSettings
         }
 
         [Fact]
-        public void Serialize_Throws_WhenCantGetWriteStream()
-        {
-            //It'll be just null ref exception, should it be helpers responsibility
-            //to throw when unable to provide valid stream?
-        }
-
-        [Fact]
         public void Serialize_WritesIntoSettingsStream()
         {
             using ( var stream = new SpyStream() )
