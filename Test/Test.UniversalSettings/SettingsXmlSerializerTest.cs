@@ -3,6 +3,7 @@ using System.IO;
 using Common.UnitTesting;
 using Moq;
 using UniversalSettings;
+using UniversalSettings.Serialization;
 using Xunit;
 using ConstructorAssert = Uwp.UnitTesting.Portable.ConstructorAssert;
 
