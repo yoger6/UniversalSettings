@@ -41,7 +41,8 @@
   <ItemGroup>
     <Compile Include="InvalidSettingTypeRequestedException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Serialization\ISettingsSerializationHelper.cs" />
+    <Compile Include="Serialization\ISettingsStreamProvider.cs" />
+    <Compile Include="Serialization\ISettingsSerializer.cs" />
     <Compile Include="Serialization\SerializableSetting.cs" />
     <Compile Include="Serialization\SettingsXmlSerializer.cs" />
     <Compile Include="SettingNotSetException.cs" />

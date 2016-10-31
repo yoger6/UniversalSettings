@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Serialization;
 
@@ -11,20 +12,20 @@ namespace UniversalSettings.Serialization
     /// <summary>
     /// Serializes and deserializes settings using xml format.
     /// </summary>
-    public class SettingsXmlSerializer
+    public class SettingsXmlSerializer : ISettingsSerializer
     {
-        private readonly ISettingsSerializationHelper _serializationHelper;
+        private readonly ISettingsStreamProvider _streamProvider;
         private readonly XmlSerializer _serializer;
 
         /// <summary>
         /// Creates instance of class.
         /// </summary>
-        /// <param name="serializationHelper">Serialization helper</param>
-        public SettingsXmlSerializer( ISettingsSerializationHelper serializationHelper )
+        /// <param name="streamProvider">Serialization helper</param>
+        public SettingsXmlSerializer( ISettingsStreamProvider streamProvider )
         {
-            if ( serializationHelper == null ) throw new ArgumentNullException( nameof( serializationHelper ) );
+            if ( streamProvider == null ) throw new ArgumentNullException( nameof( streamProvider ) );
 
-            _serializationHelper = serializationHelper;
+            _streamProvider = streamProvider;
             _serializer = new XmlSerializer( typeof(SerializableSetting[]) );
         }
 
@@ -32,7 +33,7 @@ namespace UniversalSettings.Serialization
         /// Serializes settings.
         /// </summary>
         /// <param name="settings">The settings.</param>
-        public void Serialize( Settings settings )
+        public async Task Serialize( Settings settings )
         {
             if ( settings == null )
             {
@@ -41,7 +42,7 @@ namespace UniversalSettings.Serialization
 
             var serializableSettings = GetSerializableSettings( settings );
             
-            using ( var stream = _serializationHelper.GetEmptyStreamForWrite() )
+            using ( var stream = await _streamProvider.GetEmptyStreamForWrite() )
             {
                 var writerSettings = new XmlWriterSettings
                 {
@@ -58,9 +59,9 @@ namespace UniversalSettings.Serialization
         /// Deserializes settings.
         /// </summary>
         /// <returns>Settings</returns>
-        public Settings Deserialize()
+        public async Task<Settings> Deserialize()
         {
-            using ( var stream = _serializationHelper.GetStreamForRead() )
+            using ( var stream = await _streamProvider.GetStreamForRead() )
             {
                 if ( stream.Length == 0 )
                 {
