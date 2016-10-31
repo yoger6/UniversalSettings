@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Threading.Tasks;
 using Common.UnitTesting;
 using Moq;
 using UniversalSettings;
@@ -10,13 +11,13 @@ namespace Test.UniversalSettings
 {
     public class SettingsXmlSerializerTest
     {
-        private readonly Mock<ISettingsSerializationHelper> _serializationHelperMock;
+        private readonly Mock<ISettingsStreamProvider> _streamProviderMock;
         private readonly SettingsXmlSerializer _serializer;
 
         public SettingsXmlSerializerTest()
         {
-            _serializationHelperMock = new Mock<ISettingsSerializationHelper>();
-            _serializer = new SettingsXmlSerializer( _serializationHelperMock.Object );
+            _streamProviderMock = new Mock<ISettingsStreamProvider>();
+            _serializer = new SettingsXmlSerializer( _streamProviderMock.Object );
         }
 
         [Fact]
@@ -26,50 +27,50 @@ namespace Test.UniversalSettings
         }
 
         [Fact]
-        public void Serialize_Throws_WhenSettingsAreNull()
+        public async Task Serialize_Throws_WhenSettingsAreNull()
         {
-            var validation = new Action(()=>_serializer.Serialize(null));
+            var validation = new Func<Task>(()=>_serializer.Serialize(null));
 
-            Assert.Throws<ArgumentNullException>( validation );
+            await Assert.ThrowsAsync<ArgumentNullException>( validation );
         }
 
         [Fact]
-        public void Serialize_WritesIntoSettingsStream()
+        public async Task Serialize_WritesIntoSettingsStream()
         {
             using ( var stream = new SpyStream() )
             {
-                _serializationHelperMock.Setup( x => x.GetEmptyStreamForWrite() )
-                                        .Returns( stream );
+                _streamProviderMock.Setup( x => x.GetEmptyStreamForWrite() )
+                                   .Returns( Task.FromResult(  (Stream)stream ));
 
-                _serializer.Serialize( GetSampleSettings() );
+                await _serializer.Serialize( GetSampleSettings() );
 
                 Assert.Equal( ExpectedSerializedSampleSettings(), stream.ToString() );
             }
         }
         
         [Fact]
-        public void Deserialize_Throws_WhenReadingEmptyStream()
+        public async Task Deserialize_Throws_WhenReadingEmptyStream()
         {
             using ( var stream = new SpyStream() )
             {
-                _serializationHelperMock.Setup( x => x.GetStreamForRead() )
-                                        .Returns( stream );
+                _streamProviderMock.Setup( x => x.GetStreamForRead() )
+                                   .Returns( Task.FromResult( (Stream)stream ) );
 
-                var validation = new Action( () => _serializer.Deserialize() );
+                var validation = new Func<Task>( () => _serializer.Deserialize() );
 
-                Assert.Throws<InvalidDataException>( validation );
+                await Assert.ThrowsAsync<InvalidDataException>( validation );
             }
         }
 
         [Fact]
-        public void Deserialize_ReturnsSettingsFromStream()
+        public async Task Deserialize_ReturnsSettingsFromStream()
         {
             using ( var stream = new SpyStream(ExpectedSerializedSampleSettings()) )
             {
-                _serializationHelperMock.Setup( x => x.GetStreamForRead() )
-                                        .Returns( stream );
+                _streamProviderMock.Setup( x => x.GetStreamForRead() )
+                                   .Returns( Task.FromResult( (Stream)stream ) );
 
-                var settings = _serializer.Deserialize();
+                var settings = await _serializer.Deserialize();
                 
                 Assert.Equal( 1, settings.Get<int>( "number" ) );
                 Assert.Equal( false, settings.Get<bool>( "condition" ) );
